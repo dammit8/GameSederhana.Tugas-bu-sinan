@@ -4,13 +4,14 @@
     {
         static void Main(string[] args)
         {
+
             Random random = new Random();
-            int angkaRahasia = random.Next(1, 101);
+            int angkaRahasia = random.Next(1, 11);
             int tebakan = 0;
             int jumlahPercobaan = 0;
 
             Console.WriteLine("=== Selamat Datang di Game Tebak Angka ===");
-            Console.WriteLine("Saya telah memilih angka antara 1 sampai 100.");
+            Console.WriteLine("Saya telah memilih angka antara 1 sampai 10.");
             Console.WriteLine("Coba tebak ya!");
 
             while (tebakan != angkaRahasia)
