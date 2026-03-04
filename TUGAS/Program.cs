@@ -1,49 +1,104 @@
-﻿namespace TUGAS
+﻿using System;
+
+namespace TUGAS
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-
             Random random = new Random();
-            int angkaRahasia = random.Next(1, 11);
-            int tebakan = 0;
-            int jumlahPercobaan = 0;
+            bool mainLagi = true;
 
-            Console.WriteLine("=== Selamat Datang di Game Tebak Angka ===");
-            Console.WriteLine("Saya telah memilih angka antara 1 sampai 10.");
-            Console.WriteLine("Coba tebak ya!");
-
-            while (tebakan != angkaRahasia)
+            while (mainLagi)
             {
-                Console.Write("Masukkan tebakanmu: ");
-                string input = Console.ReadLine();
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("===========================================");
+                Console.WriteLine("     🔥 GAME TEBAK ANGKA ULTIMATE 🔥     ");
+                Console.WriteLine("===========================================");
+                Console.ResetColor();
 
-                if (!int.TryParse(input, out tebakan))
+                // --- FITUR 1: PILIHAN KESULITAN ---
+                Console.WriteLine("\nPilih Tingkat Kesulitan:");
+                Console.WriteLine("1. Mudah  (1-10, Nyawa: 5)");
+                Console.WriteLine("2. Normal (1-50, Nyawa: 7)");
+                Console.WriteLine("3. Sulit  (1-100, Nyawa: 10)");
+                Console.Write("\nPilihanmu (1/2/3): ");
+
+                int maxAngka = 10, nyawa = 5;
+                string level = Console.ReadLine();
+
+                switch (level)
                 {
-                    Console.WriteLine("Masukkan angka yang valid!");
-                    continue;
+                    case "2": maxAngka = 50; nyawa = 7; break;
+                    case "3": maxAngka = 100; nyawa = 10; break;
+                    default: maxAngka = 10; nyawa = 5; break;
                 }
 
-                jumlahPercobaan++;
+                int angkaRahasia = random.Next(1, maxAngka + 1);
+                int tebakan = 0;
+                int jumlahPercobaan = 0;
+                bool menang = false;
 
-                if (tebakan < angkaRahasia)
+                Console.WriteLine($"\nOke! Saya memikirkan angka 1 sampai {maxAngka}.");
+                Console.WriteLine($"Hati-hati, kamu hanya punya {nyawa} nyawa!");
+
+                // --- LOGIKA GAME ---
+                while (nyawa > 0)
                 {
-                    Console.WriteLine("Terlalu RENDAH! Coba lagi.");
+                    Console.Write($"\n[Nyawa: {nyawa}] Masukkan tebakanmu: ");
+                    string input = Console.ReadLine();
+
+                    if (!int.TryParse(input, out tebakan))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("❌ Input tidak valid! Masukkan angka.");
+                        Console.ResetColor();
+                        continue;
+                    }
+
+                    jumlahPercobaan++;
+
+                    if (tebakan < angkaRahasia)
+                    {
+                        Console.WriteLine("📉 Terlalu RENDAH!");
+                        nyawa--;
+                    }
+                    else if (tebakan > angkaRahasia)
+                    {
+                        Console.WriteLine("📈 Terlalu TINGGI!");
+                        nyawa--;
+                    }
+                    else
+                    {
+                        menang = true;
+                        break;
+                    }
                 }
-                else if (tebakan > angkaRahasia)
+
+                // --- SELESAI GAME ---
+                if (menang)
                 {
-                    Console.WriteLine("Terlalu TINGGI! Coba lagi.");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\n🎉 SELAMAT! Kamu berhasil menebak angka {angkaRahasia}");
+                    Console.WriteLine($"🏆 Kamu menang dalam {jumlahPercobaan} percobaan.");
+                    Console.ResetColor();
                 }
                 else
                 {
-                    Console.WriteLine($"\nSELAMAT! Kamu berhasil menebak angka {angkaRahasia}");
-                    Console.WriteLine($"Total percobaan: {jumlahPercobaan}");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\n💀 GAME OVER!");
+                    Console.WriteLine($"Angka yang benar adalah: {angkaRahasia}");
+                    Console.ResetColor();
                 }
+
+                // --- FITUR 2: MAIN LAGI ---
+                Console.Write("\nMain lagi? (y/n): ");
+                mainLagi = Console.ReadLine().ToLower() == "y";
             }
 
-            Console.WriteLine("\nTekan tombol apa saja untuk keluar...");
-            Console.ReadKey();
+            Console.WriteLine("\nTerima kasih sudah bermain! Sampai jumpa.");
+            System.Threading.Thread.Sleep(2000);
         }
     }
 }
