@@ -24,7 +24,7 @@ namespace TUGAS
                 Console.WriteLine("2. Normal (1-50, Nyawa: 7)");
                 Console.WriteLine("3. Sulit  (1-100, Nyawa: 10)");
                 Console.Write("\nPilihanmu (1/2/3): ");
-
+                
                 int maxAngka = 10, nyawa = 5;
                 string level = Console.ReadLine();
 
